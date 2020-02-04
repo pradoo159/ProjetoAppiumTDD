@@ -38,7 +38,7 @@ public class Cadastro_Page {
 	}
 	
 	public static MobileElement txtbx_Address(AndroidDriver<?> driver) {
-		return (MobileElement) driver.findElementByXPath("//android.view.ViewGroup[@content-desc=\"Home Page\"]/android.widget.LinearLayout[2]/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.EditText");
+		return (MobileElement) driver.findElementByXPath("//android.view.ViewGroup[@content-desc=\"Home Page\"]/android.widget.LinearLayout[2]/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.EditText");
 	}
 	
 	public static MobileElement txtbx_Cep(AndroidDriver<?> driver) {
@@ -47,6 +47,10 @@ public class Cadastro_Page {
 	
 	public static MobileElement txtbx_City(AndroidDriver<?> driver) {
 		return (MobileElement) driver.findElementByXPath("//android.view.ViewGroup[@content-desc=\"Home Page\"]/android.widget.LinearLayout[2]/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.RelativeLayout[1]/android.widget.EditText");
+	}
+	
+	public static MobileElement txtbx_Country(AndroidDriver<?> driver) {
+		return (MobileElement) driver.findElementById("com.Advantage.aShopping:id/linearLayoutCountry");
 	}
 	
 }

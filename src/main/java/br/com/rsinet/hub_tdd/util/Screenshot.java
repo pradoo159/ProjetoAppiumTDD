@@ -11,7 +11,7 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class Screenshot {
 
-	public static void TirarPrint(AndroidDriver driver, String nomePrint) {
+	public static String capture(AndroidDriver driver, String nomePrint) {
 		
 		String local = "C:\\Users\\emerson.prado\\eclipse-toolsqa\\workspace-appium\\AOS_Appium_TDD\\screenshot\\" 
 		+ nomePrint + ".png";
@@ -22,6 +22,8 @@ public class Screenshot {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return local;
 	}
 	
 }
