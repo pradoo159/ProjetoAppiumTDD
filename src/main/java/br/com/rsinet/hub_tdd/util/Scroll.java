@@ -15,12 +15,18 @@ public class Scroll {
 						+ visibleText + "\").instance(0))")
 				.click();
 	}
+	
+	public static void onlyScroll(AndroidDriver driver, String visibleText) {
+		driver.findElementByAndroidUIAutomator(
+				"new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""
+						+ visibleText + "\").instance(0))");
+	}
 
 	public static void swipe(int fromX, int fromY, int toX, int toY, AndroidDriver driver) {
 
 		TouchAction action = new TouchAction(driver);
 		action.press(PointOption.point(fromX, fromY))
-				.waitAction(new WaitOptions().withDuration(Duration.ofMillis(2000))) 
+				.waitAction(new WaitOptions().withDuration(Duration.ofMillis(4000))) 
 				.moveTo(PointOption.point(toX, toY)).release().perform();
 	}
 

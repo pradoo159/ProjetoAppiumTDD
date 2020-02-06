@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,12 +21,12 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class PesquisaPorCategoria_TC {
 
-	AndroidDriver<MobileElement> driver;
+	static AndroidDriver<MobileElement> driver;
 	ExtentTest test = ExtentReport.getTest();
 	ExtentReports extent = ExtentReport.getExtent();
 	
 	@Before
-	public void abrirApp() throws MalformedURLException {
+	public static void abrirApp() throws MalformedURLException {
 		driver = AppManager.startApp();
 	}
 	
@@ -39,8 +40,9 @@ public class PesquisaPorCategoria_TC {
 		test.log(LogStatus.PASS, "Print abaixo: " + test.addScreenCapture(screenShotPath));
 	}
 	
+
 	@After
-	public void fecharApp() {
+	public static void fecharApp() {
 		AppManager.closeApp(driver);
 	}
 	

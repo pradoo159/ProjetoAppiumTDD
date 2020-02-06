@@ -11,21 +11,37 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class AppManager {
 
+	private static AndroidDriver<MobileElement> driver;
+	private static Boolean primeiroTeste = true;
+
 	public static AndroidDriver<MobileElement> startApp() throws MalformedURLException {
-		AndroidDriver<MobileElement> driver;
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability("deviceName", "Redmi");
-		capabilities.setCapability("platformVersion", "9");
-		capabilities.setCapability("platformName", "Android");
-		capabilities.setCapability("appPackage", "com.Advantage.aShopping");
-		capabilities.setCapability("appActivity", "com.Advantage.aShopping.SplashActivity");
-		driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability("platformName", "Android");
+		caps.setCapability("platformVersion", "9");
+		caps.setCapability("deviceName", "Erms");
+		caps.setCapability("udid", "emulator-5554");
+
+		caps.setCapability("appPackage", "com.Advantage.aShopping");
+		caps.setCapability("appActivity", "com.Advantage.aShopping.SplashActivity");
+
+		caps.setCapability("noReset", true);
+		if (!primeiroTeste) {
+			caps.setCapability("webDriverAgentUrl", "http://localhost:8100");
+		}
+
+		driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		return driver;
 	}
-	
+
 	public static void closeApp(AndroidDriver driver) {
+		primeiroTeste = false;
 		driver.closeApp();
+	}
+	
+	public static void restartApp(AndroidDriver driver) {
+		primeiroTeste = false;
+		driver.resetApp();
 	}
 
 }

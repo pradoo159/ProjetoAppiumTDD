@@ -1,12 +1,8 @@
 package br.com.rsinet.hub_tdd.testcase;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
@@ -23,16 +19,17 @@ import br.com.rsinet.hub_tdd.util.ExtentReport;
 import br.com.rsinet.hub_tdd.util.GetScreenShot;
 import br.com.rsinet.hub_tdd.util.Scroll;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 
 public class PesquisaPorTexto_TC {
 
-	AndroidDriver<MobileElement> driver;
+	static AndroidDriver<MobileElement> driver;
 	ExtentTest test = ExtentReport.getTest();
 	ExtentReports extent = ExtentReport.getExtent();
 
 	@Before
-	public void abrirApp() throws Exception {
+	public static void abrirApp() throws Exception {
 		driver = AppManager.startApp();
 		ExcelUtils.setExcelFile(Constant.Path_TestData + Constant.File_TestData, "Pesquisa");
 	}
@@ -56,7 +53,8 @@ public class PesquisaPorTexto_TC {
 	@Test
 	public void PesquisaPorTextoInvalida() throws Exception {
 		test = extent.startTest("Pesquisa por texto inválida");
-		
+		TouchAction action = new TouchAction(driver);
+//		action.waitAction(new WaitOptions().withDuration(Duration.ofMillis(2000))).perform();
 		Home_Page.lnk_Lupa(driver).click();
 		Home_Page.txtbx_Pesquisar(driver).sendKeys(Data.dadoPesquisaInvalida());
 		Home_Page.lnk_Lupa(driver).click();
@@ -69,7 +67,7 @@ public class PesquisaPorTexto_TC {
 	}
 
 	@After
-	public void fecharApp() {
+	public static void fecharApp() {
 		AppManager.closeApp(driver);
 	}
 

@@ -2,8 +2,8 @@ package br.com.rsinet.hub_tdd.testcase;
 
 import java.time.Duration;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
@@ -26,7 +26,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
 
 public class Cadastro_TC {
 
@@ -35,68 +34,62 @@ public class Cadastro_TC {
 	ExtentTest test = ExtentReport.getTest();
 	ExtentReports extent = ExtentReport.getExtent();
 
+
 	@Before
-	public void iniciarApp() throws Exception {
+	public static void iniciarApp() throws Exception {
 		driver = AppManager.startApp();
 		ExcelUtils.setExcelFile(Constant.Path_TestData + Constant.File_TestData, "Cadastro");
 	}
 
 	@Test
 	public void DeveCadastrarUmUsuario() throws Exception {
-
-		test = extent.startTest("Cadastro valido");
+		test = extent.startTest("Cadastro válido");
 		action = new TouchAction(driver);
-		
 		Home_Page.btn_Menu(driver).click();
 		Home_Page.lnk_Login(driver).click();
 		Home_Page.lnk_Cadastrar(driver).click();
-		
 		Cadastro_Page.txtbx_Username(driver).click();
 		Cadastro_Page.txtbx_Username(driver).sendKeys(Data.usuarioCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
-
 		Cadastro_Page.txtbx_Email(driver).sendKeys(Data.emailCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
-		
 		Cadastro_Page.txtbx_Password(driver).sendKeys(Data.senhaCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
-		
 		Cadastro_Page.txtbx_ConfirmPassword(driver).sendKeys(Data.senhaCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
-		
 		Cadastro_Page.txtbx_LastName(driver).sendKeys(Data.sobrenomeCadastro());
-		
 		Cadastro_Page.txtbx_FirstName(driver).click();
 		Cadastro_Page.txtbx_FirstName(driver).sendKeys(Data.nomeCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
-
 		NumericalKeyboard.PreencherPhoneNumber(driver);
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
-		
 		Cadastro_Page.txtbx_State(driver).click();
 		Cadastro_Page.txtbx_State(driver).sendKeys(Data.estadoCadastro());
-//		action.tap(PointOption.point(226, 1630)).perform();
 		Cadastro_Page.txtbx_Country(driver).click();
 		Scroll.scrollAndClick(driver, Data.paisCadastro());
-		Scroll.swipe(603, 1479, 599, 292, driver);
+		Cadastro_Page.txtbx_State(driver).click();
+		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
 		Cadastro_Page.txtbx_Address(driver).click();
 		Cadastro_Page.txtbx_Address(driver).sendKeys(Data.enderecoCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
-		Cadastro_Page.txtbx_Cep(driver).click();
 		Cadastro_Page.txtbx_Cep(driver).sendKeys(Data.cepCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.BACK));
 		Cadastro_Page.txtbx_City(driver).click();
 		Cadastro_Page.txtbx_City(driver).sendKeys(Data.cidadeCadastro());
 		driver.pressKey(new KeyEvent(AndroidKey.BACK));
-		Scroll.scrollAndClick(driver, "REGISTER");
-		action.waitAction(new WaitOptions().withDuration(Duration.ofMillis(4000))).perform();
-		test.log(LogStatus.PASS, "Teste Passou");
+		Scroll.onlyScroll(driver, "REGISTER");
+		Scroll.swipe(511, 1326, 511, 706, driver);
+		Cadastro_Page.btn_Register(driver).click();
+		action.waitAction(new WaitOptions().withDuration(Duration.ofMillis(2000))).perform();
+		Home_Page.btn_Menu(driver).click();
+		action.waitAction(new WaitOptions().withDuration(Duration.ofMillis(2000))).perform();
 		String screenShotPath = GetScreenShot.capture(driver, "cadastro_valido");
-		test.log(LogStatus.PASS, "Print abaixo: " + test.addScreenCapture(screenShotPath));
+		test.log(LogStatus.PASS, "teste finalizado, print abaixo: " +  test.addScreenCapture(screenShotPath));
+		
 
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void NaoDeveCadastrarUmUsuarioComEmailInvalido() throws Exception {
 
@@ -124,9 +117,10 @@ public class Cadastro_TC {
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
 		Cadastro_Page.txtbx_State(driver).click();
 		Cadastro_Page.txtbx_State(driver).sendKeys("São Paulo");
-		action.tap(PointOption.point(226, 1630)).perform();
+		Cadastro_Page.txtbx_Country(driver).click();
 		Scroll.scrollAndClick(driver, "Brazil");
-		Scroll.swipe(603, 1479, 599, 292, driver);
+		Cadastro_Page.txtbx_State(driver).click();
+		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
 		Cadastro_Page.txtbx_Address(driver).click();
 		Cadastro_Page.txtbx_Address(driver).sendKeys("Avenida dos remédios");
 		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
@@ -135,16 +129,18 @@ public class Cadastro_TC {
 		Cadastro_Page.txtbx_City(driver).click();
 		Cadastro_Page.txtbx_City(driver).sendKeys("Osasco");
 		driver.pressKey(new KeyEvent(AndroidKey.BACK));
+		Scroll.swipe(727, 1362, 601, 1736, driver);
 		Scroll.scrollAndClick(driver, "REGISTER");
+		Cadastro_Page.btn_Register(driver).click();
 		action.waitAction(new WaitOptions().withDuration(Duration.ofMillis(4000))).perform();
 		test.log(LogStatus.PASS, "fim do teste");
 		test.log(LogStatus.PASS, "Print abaixo: " + test.addScreenCapture(screenShotPath));
 
 	}
 
-//	@After
-//	public void fecharApp() {
-//		AppManager.closeApp(driver);
-//	}
-
+	@After
+	public static void fecharApp() {
+		AppManager.closeApp(driver);
+	}
+	
 }
