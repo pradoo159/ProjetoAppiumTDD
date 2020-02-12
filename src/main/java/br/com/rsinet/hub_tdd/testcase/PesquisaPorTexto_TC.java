@@ -24,14 +24,13 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class PesquisaPorTexto_TC {
 
-	static AndroidDriver<MobileElement> driver;
+	private AndroidDriver<MobileElement> driver;
 	ExtentTest test = ExtentReport.getTest();
 	ExtentReports extent = ExtentReport.getExtent();
 
 	@Before
-	public static void abrirApp() throws Exception {
+	public void iniciarApp() throws Exception {
 		driver = AppManager.startApp();
-		ExcelUtils.setExcelFile(Constant.Path_TestData + Constant.File_TestData, "Pesquisa");
 	}
 
 	@Test
@@ -39,12 +38,12 @@ public class PesquisaPorTexto_TC {
 		test = extent.startTest("Pesquisa por texto válida");
 		
 		Home_Page.lnk_Lupa(driver).click();
-		Home_Page.txtbx_Pesquisar(driver).sendKeys(Data.dadoPesquisaValida());
+		Home_Page.txtbx_Pesquisar(driver).sendKeys("MOUSE");
 		Home_Page.lnk_Lupa(driver).click();
 		
-		Scroll.scrollAndClick(driver, Data.dadoMouseValido2());
+		Scroll.scrollAndClick(driver, "HP Z8000 BLUETOOTH MOUSE");
 		
-		Assert.assertEquals(true, Produtos_Page.titulo_Produto(driver).getText().equals(Data.dadoMouseValido2()));
+		Assert.assertEquals(true, Produtos_Page.titulo_Produto(driver).getText().contains("HP Z8000 BLUETOOTH MOUSE"));
 		
 		String screenShotPath = GetScreenShot.capture(driver, "pesquisa_por_texto_valida");
 		test.log(LogStatus.PASS, "Print abaixo: " + test.addScreenCapture(screenShotPath));
@@ -53,21 +52,19 @@ public class PesquisaPorTexto_TC {
 	@Test
 	public void PesquisaPorTextoInvalida() throws Exception {
 		test = extent.startTest("Pesquisa por texto inválida");
-		TouchAction action = new TouchAction(driver);
-//		action.waitAction(new WaitOptions().withDuration(Duration.ofMillis(2000))).perform();
+		
 		Home_Page.lnk_Lupa(driver).click();
-		Home_Page.txtbx_Pesquisar(driver).sendKeys(Data.dadoPesquisaInvalida());
+		Home_Page.txtbx_Pesquisar(driver).sendKeys("Celular");
 		Home_Page.lnk_Lupa(driver).click();
 		
 		Assert.assertEquals(true, Produtos_Page.txt_Invalido(driver).getText().contains("No results for"));
 		
-		test.log(LogStatus.PASS, "Nenhum produto encontrado");
 		String screenShotPath = GetScreenShot.capture(driver, "pesquisa_por_texto_invalida");
 		test.log(LogStatus.PASS, "Print abaixo: " + test.addScreenCapture(screenShotPath));
 	}
 
 	@After
-	public static void fecharApp() {
+	public void fecharApp() {
 		AppManager.closeApp(driver);
 	}
 
